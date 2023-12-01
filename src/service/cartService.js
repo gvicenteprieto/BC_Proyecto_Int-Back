@@ -16,6 +16,67 @@ export const getProductsInCart = (products) => {
     });
 };
 
+
+/*
+  user_id: { type: String, required: [true, "User id is required"] },
+  product_id: { type: String, required: [true, "Product id is required"] },
+  quantity: { type: Number, required: [true, "Quantity is required"] },
+  total: { type: Number, required: [true, "Total is required"] }
+
+
+
+*/
+
+ const getCartByUserIdService = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const cart = await CartModel.find({ user_id: userId });
+            resolve(cart);
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
+const addProductToCartService = (product) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const newProduct = await CartModel.create(product);
+            resolve(newProduct);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+
+
+
+// const addProductToCartService = async (request) => {
+//     try {
+//         const { username } = request.params;
+//         const { idProduct, amountProducts } = request.body;
+//         const product = await getProductByIdService(idProduct);
+//         const Cart = [];
+//         for (let i = 0; i < amountProducts.length; i++) {
+//             const newProduct = await CartModel.create(product);
+//             Cart.push(newProduct);
+//         }
+//         const user = await UserModel.findOne({ username });
+//         user.cart.push(Cart);
+//         await user.save();
+//         return user;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+
+export {
+    getCartByUserIdService,
+    addProductToCartService
+}
+
 // export const addProductToCart = (product) => {
 //     return new Promise(async (resolve, reject) => {
 //         try {
@@ -28,6 +89,7 @@ export const getProductsInCart = (products) => {
 // }
 
 //seba:
+/*
 export const addProductInCartService = async (request) => {
     try {
         const {username} = request.params
@@ -60,7 +122,7 @@ export const addProductInCartService = async (request) => {
         console.log(error);
     }
 }
-
+*/
 
 
 

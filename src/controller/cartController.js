@@ -1,3 +1,35 @@
+import {
+  getCartByUserIdService,
+  addProductToCartService
+} from '../service/cartService.js';
+
+const getCartByUserIdController = async (request, response) => {
+  try {
+    const { userId } = request.params;
+    const cart = await getCartByUserIdService(userId);
+    response.json(cart);
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+}
+
+const addProductToCartController = async (request, response) => {
+  try {
+    const product = request.body;
+    const newProduct = await addProductToCartService(product);
+    response.json(newProduct);
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+}
+
+export {
+  getCartByUserIdController,
+  addProductToCartController
+
+}
+
+/*
 import { addProductInCartService } from "../service/cartService.js";
 
 const addProductInCartController = async (request, response) => {
@@ -25,3 +57,4 @@ export {
   addProductInCartController
 };
 
+*/

@@ -14,8 +14,13 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true
-    }
-    });
+    },
+    username: {
+        type: String,
+        required: [true, 'Username is required.'],
+        trim: true
+    },
+});
 
 const UserModel = model('User', userSchema);
 
