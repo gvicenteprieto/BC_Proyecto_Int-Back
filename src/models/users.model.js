@@ -5,8 +5,8 @@ const userSchema = new Schema({
     password: {
         type: String,
         minlength: [8, 'Password must be at least 8 characters.'],
-        maxlength: [32, 'Password must be less than 32 characters.'],
-        required: [true, 'Email is required.']
+        maxlength: [80, 'Password must be less than 82 characters.'],
+        required: [true, 'Password is required.']
     },
     email: {
         type: String,
@@ -20,6 +20,13 @@ const userSchema = new Schema({
         required: [true, 'Username is required.'],
         trim: true
     },
+    //roles:
+    // role : {
+    //     type: String,
+    //     enum: ['admin', 'user'],
+    //     default: 'user'
+    // },
+
 });
 
 const UserModel = model('User', userSchema);

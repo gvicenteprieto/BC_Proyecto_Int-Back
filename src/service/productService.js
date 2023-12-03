@@ -10,9 +10,9 @@ const getProductsService = async () => {
   }
 };
 
-const getProductByIdService = async (req) => {
+const getProductByIdService = async (id) => {
   try {
-    const id = req.params.id;
+    //const id = req.params.id;
     const product = await ProductModel.findById(id);
     return product;
   } catch (error) {

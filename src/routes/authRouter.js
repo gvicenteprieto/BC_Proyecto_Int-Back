@@ -1,29 +1,43 @@
 import { Router } from "express";
-import { loginController , registerController} from "../controller/authController.js";
+import {
+  loginController,
+  registerController,
+  getUsersController,
+  getUserByEmailController,
+  getUserByIdController,
+  deleteUserByIdController
+} from "../controller/authController.js";
 
 import { check } from "express-validator";
 import validator from "../utils/validator.js";
 
-const router = Router();
+const routerAuth = Router();
 
-router.post(
+routerAuth.post(
   "/login",
   [
-    check("email", "El email es obligaorio").isEmail(),
-    //check("password", "El password es obligaorio").not().isEmpty(),
+    check("username", "Username is required").not().isEmpty(),
+    check("email", "Email is required").isEmail(),
+    check("password", "Password is required").not().isEmpty(),
     validator,
   ],
   loginController
 );
 
-router.post(
+routerAuth.post(
   "/register",
   [
-    check("email", "El email es obligaorio").isEmail(),
-    //check("password", "El password es obligaorio").not().isEmpty(),
+    check("username", "Username is required").not().isEmpty(),
+    check("email", "Email is required").isEmail(),
+    check("password", "Password is required").not().isEmpty(),
     validator,
   ],
-  loginController
+  registerController
 );
 
-export default router;
+routerAuth.get("/users", getUsersController);
+routerAuth.get("/user-email/:email", getUserByEmailController);
+routerAuth.get("/user/:id", getUserByIdController);
+routerAuth.delete("/user/:id", deleteUserByIdController);
+
+export default routerAuth;

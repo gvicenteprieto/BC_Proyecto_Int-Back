@@ -1,10 +1,27 @@
 import { Schema, model } from "mongoose";
+// import ProductModel from "./products.model.js";
+// import UserModel from "./users.model.js";
 
 const cartSchema = new Schema({
-  user_id: { type: String, required: [true, "User id is required"] },
-  product_id: { type: String, required: [true, "Product id is required"] },
-  quantity: { type: Number, required: [true, "Quantity is required"] },
-  total: { type: Number, required: [true, "Total is required"] }
+  // user : { type: Schema.Types.ObjectId, ref: "User" },
+  // products : [{ type: Schema.Types.ObjectId, ref: "Product" }],
+  // total: { type: Number, required: [true, "Total is required"] },
+
+  username: {
+    type: String,
+    required: [true, "Username is required"],
+  },
+
+  products: {
+    type: Array,
+    required: [true, "Products is required"],
+  },
+
+  total: {
+    type: Number,
+    required: [true, "Total is required"],
+  },
+
 });
 
 const CartModel = model("Cart", cartSchema);

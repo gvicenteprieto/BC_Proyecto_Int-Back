@@ -44,7 +44,8 @@ const createProductController = async (request, response) => {
 
 const getProductByIdController = async (request, response) => {
   try {
-    const product = await getProductByIdService(request);
+    const id = await request.params.id;
+    const product = await getProductByIdService(id);
     if (!product) {
       return response.status(404).json({
         message: "Product not found",

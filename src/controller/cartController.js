@@ -1,12 +1,32 @@
 import {
-  getCartByUserIdService,
-  addProductToCartService
-} from '../service/cartService.js';
+  getCartsService,
+  getCartByIdService,
+  getCartByUsernameService,
+  addProductToCartService,
+  deleteCartByIdService,
+} from "../service/cartService.js";
 
-const getCartByUserIdController = async (request, response) => {
+const getCartsController = async (request, response) => {
   try {
-    const { userId } = request.params;
-    const cart = await getCartByUserIdService(userId);
+    const carts = await getCartsService();
+    response.json(carts);
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+};
+
+const getCartByIdController = async (request, response) => {
+  try {
+    const cart = await getCartByIdService(request);
+    response.json(cart);
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+};
+
+const getCartByUsernameController = async (request, response) => {
+  try {
+    const cart = await getCartByUsernameService(request);
     response.json(cart);
   } catch (error) {
     response.status(500).json({ message: error.message });
@@ -15,46 +35,26 @@ const getCartByUserIdController = async (request, response) => {
 
 const addProductToCartController = async (request, response) => {
   try {
-    const product = request.body;
-    const newProduct = await addProductToCartService(product);
-    response.json(newProduct);
+    const addProductToCart = await addProductToCartService(request);
+    response.json(addProductToCart);
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
-}
+};
 
-export {
-  getCartByUserIdController,
-  addProductToCartController
-
-}
-
-/*
-import { addProductInCartService } from "../service/cartService.js";
-
-const addProductInCartController = async (request, response) => {
+const deleteCartByIdController = async (request, response) => {
   try {
-    // const addProductToCart = await addProductInCartService(request);
-    // response.json(addProductToCart);
-
-    
-    const { username } = request.params;
-    const { idProduct, amountProducts } = request.body;
-    const product = await getProductByIdService(idProduct);
-    const Cart = [];
-    for (let i = 0; i < amountProducts.length; i++) {
-      const newProduct = await CartModel.create(product);
-      Cart.push(newProduct);
-    }
-
-
+    const deleteCart = await deleteCartByIdService(request);
+    response.json(deleteCart);
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
 };
 
 export {
-  addProductInCartController
+  getCartsController,
+  getCartByIdController,
+  addProductToCartController,
+  deleteCartByIdController,
+  getCartByUsernameController
 };
-
-*/

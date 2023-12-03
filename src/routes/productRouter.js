@@ -8,7 +8,7 @@ import {
   deleteProductController
 } from '../controller/productController.js';
 
-// middleware
+// middleware: post and put routes
 import productBodyValidator from "../utils/productBodyValidator.js";
 
 const routerProducts = express.Router();

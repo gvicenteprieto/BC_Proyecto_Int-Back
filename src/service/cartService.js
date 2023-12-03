@@ -1,144 +1,84 @@
-import ProductModel from "../models/products.model.js";
+// import ProductModel from "../models/products.model.js";
+// import UserModel from "../models/users.model.js";
 import CartModel from "../models/cart.model.js";
-import { getProductByIdService } from "./productService.js"
-//import UserModel from "../models/user.model";
+import { getProductByIdService } from "./productService.js";
 
-
-
-export const getProductsInCart = (products) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const productsInCart = await CartModel.find({ name: { $in: products } });
-            resolve(productsInCart);
-        } catch (error) {
-            reject(error);
-        }
-    });
+const getCartsService = async () => {
+  try {
+    const carts = await CartModel.find();
+    return carts;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
 };
 
-
-/*
-  user_id: { type: String, required: [true, "User id is required"] },
-  product_id: { type: String, required: [true, "Product id is required"] },
-  quantity: { type: Number, required: [true, "Quantity is required"] },
-  total: { type: Number, required: [true, "Total is required"] }
-
-
-
-*/
-
- const getCartByUserIdService = (userId) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const cart = await CartModel.find({ user_id: userId });
-            resolve(cart);
-        } catch (error) {
-            reject(error);
-        }
-    });
+const getCartByIdService = async (request) => {
+  try {
+    const cart = await CartModel.findById(request.params.id);
+    return cart;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
 };
 
-const addProductToCartService = (product) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const newProduct = await CartModel.create(product);
-            resolve(newProduct);
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
+const getCartByUsernameService = async (request) => {
+  try {
+    const cart = await CartModel.findOne({ username: request.params.username });
+    return cart;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
+};
 
+const addProductToCartService = async (request) => {
+  try {
+    const { username } = request.params;
+    const { idProduct, qtyProducts } = request.body;
+    const product = await getProductByIdService(idProduct);
+    let cartProducts = [];
+    for (let i = 0; i < qtyProducts; i++) {
+      cartProducts.push(product);
+    }
 
+    const cart = await CartModel.findOne({ username: username });
 
+    if (!cart) {
+      const newCart = await CartModel.create({
+        username: username,
+        products: cartProducts,
+        total: product.price * qtyProducts,
+      });
+      return newCart;
+    } else if (cart) {
+      cart.products = [...cart.products, ...cartProducts];
+      cart.total = cart.total + product.price * qtyProducts;
+      const updatedCart = await CartModel.findByIdAndUpdate(cart._id, cart);
+      return updatedCart;
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
+};
 
-// const addProductToCartService = async (request) => {
-//     try {
-//         const { username } = request.params;
-//         const { idProduct, amountProducts } = request.body;
-//         const product = await getProductByIdService(idProduct);
-//         const Cart = [];
-//         for (let i = 0; i < amountProducts.length; i++) {
-//             const newProduct = await CartModel.create(product);
-//             Cart.push(newProduct);
-//         }
-//         const user = await UserModel.findOne({ username });
-//         user.cart.push(Cart);
-//         await user.save();
-//         return user;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-
+const deleteCartByIdService = async (request) => {
+  try {
+    const cart = await CartModel.findByIdAndDelete(request.params.id);
+    console.log(cart);
+    return cart;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
+};
 
 export {
-    getCartByUserIdService,
-    addProductToCartService
-}
-
-// export const addProductToCart = (product) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             const newProduct = await CartModel.create(product);
-//             resolve(newProduct);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     });
-// }
-
-//seba:
-/*
-export const addProductInCartService = async (request) => {
-    try {
-        const {username} = request.params
-        // Vamos a recibir el idProduct y la cantidad (amount)
-        const { idProduct, amountProducts } = request.body
-        console.log(idProduct);
-        console.log(amountProducts);
-        // Buscamos el producto en la base de datos
-        const product = await getProductByIdService(idProduct)
-        console.log(product);
-        // Buscamos el usuario en la base de datos
-
-        const Cart = []
-        for (let i = 0; i < amountProducts.length; i++) {
-            const newProduct = await CartModel.create(product);
-            Cart.push(newProduct)
-        }
-
-        const user = await UserModel.findOne({ username })
-        console.log(user);
-
-        // Agregamos el producto al carrito del usuario
-        user.cart.push(Cart)
-        // Guardamos el usuario
-
-        await user.save()
-        return user
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-*/
-
-
-
-
-
-
-export const deleteProductFromCart = (id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const productDeleted = await CartModel.findByIdAndDelete(id);
-            resolve(productDeleted);
-        } catch (error) {
-            reject(error);
-        }
-    });
-}
-
-
-
+  getCartsService,
+  getCartByIdService,
+  addProductToCartService,
+  deleteCartByIdService,
+  getCartByUsernameService,
+};
