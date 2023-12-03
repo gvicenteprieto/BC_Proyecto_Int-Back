@@ -11,6 +11,9 @@ import {
 import { check } from "express-validator";
 import validator from "../utils/validator.js";
 
+//middleware authentorization 
+import validateToken from "../utils/validateToken.js";  
+
 const routerAuth = Router();
 
 routerAuth.post(
@@ -35,9 +38,10 @@ routerAuth.post(
   registerController
 );
 
-routerAuth.get("/users", getUsersController);
-routerAuth.get("/user-email/:email", getUserByEmailController);
-routerAuth.get("/user/:id", getUserByIdController);
-routerAuth.delete("/user/:id", deleteUserByIdController);
+//routes users with authentorization middleware
+routerAuth.get("/users", validateToken, getUsersController);
+routerAuth.get("/user-email/:email", validateToken, getUserByEmailController);
+routerAuth.get("/user/:id", validateToken, getUserByIdController);
+routerAuth.delete("/user/:id", validateToken, deleteUserByIdController);
 
 export default routerAuth;

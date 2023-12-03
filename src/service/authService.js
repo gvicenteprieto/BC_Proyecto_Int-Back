@@ -15,6 +15,7 @@ const loginService = async (req, res) => {
     console.log("user exists", user);
 
     const isValidPassword = bcrypt.compareSync(password, user[0].password);
+    
     console.log("isValidPassword", isValidPassword);
 
     if (!isValidPassword)

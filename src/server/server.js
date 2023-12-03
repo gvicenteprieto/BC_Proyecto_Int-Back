@@ -9,15 +9,14 @@ const server = express();
 
 //middlewares
 server.use(express.json());
-//server.use(routerAuth);
+server.use('/api/', routerAuth);
 
-//token middleware para proteger las rutas de acá en adelante
+//token middleware authentication for all routes
 server.use(validateToken)
 
 //routes
 server.use('/api/', routerProducts);
 server.use('/api/', routerCart);
-server.use('/api/', routerAuth);
 
 //error middleware
 server.use(routerError)

@@ -4,13 +4,14 @@ config();
 
 const generateJWT = (email) => {
 
-//  const payload = { email: email};
-
   const payload = { email: email};
+
   const token = jwt.sign(payload, process.env.SECRET_KEY, {
-    expiresIn: "5h",
+    expiresIn: "12h",
   });
+
   return token;
+  
 }
 
 export default generateJWT;

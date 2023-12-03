@@ -1,5 +1,3 @@
-// import ProductModel from "../models/products.model.js";
-// import UserModel from "../models/users.model.js";
 import CartModel from "../models/cart.model.js";
 import { getProductByIdService } from "./productService.js";
 
