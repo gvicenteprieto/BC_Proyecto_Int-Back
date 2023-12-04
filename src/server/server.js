@@ -5,7 +5,6 @@ import routerAuth from '../routes/authRouter.js';
 import routerError from '../utils/errorRouter.js';
 import validateToken from '../utils/validateToken.js';
 import cors from 'cors';
-
 const server = express();
 
 //middlewares
