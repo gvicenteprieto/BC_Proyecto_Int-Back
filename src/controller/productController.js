@@ -15,7 +15,7 @@ const getProductsController = async (request, response) => {
         message: "Products not found",
       });
     }
-    response.status(200).json({products});
+    response.status(200).json(products);
   } catch (error) {
     response.status(500).json({
       message: error.message,
