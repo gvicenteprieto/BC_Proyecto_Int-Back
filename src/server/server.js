@@ -8,7 +8,7 @@ import cors from 'cors';
 const server = express();
 
 //middlewares
-server.use(cors());
+server.use(cors('*'));
 server.use(express.json());
 //server.use('/api/', routerAuth);
 

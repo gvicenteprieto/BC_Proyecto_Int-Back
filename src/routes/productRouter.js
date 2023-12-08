@@ -17,7 +17,7 @@ routerProducts.get("/products",  getProductsController);
 routerProducts.post('/product', productBodyValidator, createProductController)
 routerProducts.get('/product/:id', getProductByIdController)
 routerProducts.get("/product-name/:name", getProductByNameController);
-routerProducts.put('/product/:id',  productBodyValidator, updateProductController)
+routerProducts.put('/product/:id',  updateProductController)
 routerProducts.delete('/product/:id', deleteProductController)
 
 export default routerProducts;

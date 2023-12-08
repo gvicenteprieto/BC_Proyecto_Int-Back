@@ -51,11 +51,11 @@ const addProductToCartService = async (request) => {
     const { username } = request.params;
     const { idProduct, qtyProducts } = request.body;
     const product = await getProductByIdService(idProduct);
+    
     let cartProducts = [];
     for (let i = 0; i < qtyProducts; i++) {
       cartProducts.push(product);
     }
-
     const cart = await CartModel.findOne({ username: username });
 
     if (!cart) {
