@@ -31,6 +31,21 @@ const getCartByUsernameService = async (request) => {
   }
 };
 
+const addProductService = async (request) => {
+  try {
+    const { idProduct, qtyProducts } = request.body;
+    const product = await getProductByIdService(idProduct);
+    let cartProducts = [];
+    for (let i = 0; i < qtyProducts; i++) {
+      cartProducts.push(product);
+    }
+    return cartProducts;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Internal server error");
+  }
+};
+
 const addProductToCartService = async (request) => {
   try {
     const { username } = request.params;
@@ -79,4 +94,5 @@ export {
   addProductToCartService,
   deleteCartByIdService,
   getCartByUsernameService,
+  addProductService
 };

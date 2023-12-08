@@ -4,6 +4,7 @@ import {
   getCartByUsernameService,
   addProductToCartService,
   deleteCartByIdService,
+  addProductService
 } from "../service/cartService.js";
 
 const getCartsController = async (request, response) => {
@@ -33,6 +34,15 @@ const getCartByUsernameController = async (request, response) => {
   }
 }
 
+const addProductController = async (request, response) => {
+  try {
+    const product = await addProductService(request);
+    response.json(product);
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+};
+
 const addProductToCartController = async (request, response) => {
   try {
     const addProductToCart = await addProductToCartService(request);
@@ -56,5 +66,6 @@ export {
   getCartByIdController,
   addProductToCartController,
   deleteCartByIdController,
-  getCartByUsernameController
+  getCartByUsernameController,
+  addProductController
 };

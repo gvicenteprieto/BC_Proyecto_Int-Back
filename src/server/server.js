@@ -10,7 +10,7 @@ const server = express();
 //middlewares
 server.use(cors());
 server.use(express.json());
-server.use('/api/', routerAuth);
+//server.use('/api/', routerAuth);
 
 //token middleware authentication for all routes
 //server.use(validateToken)
